@@ -1,3 +1,5 @@
+# These imports include libraries for data manipulation (Pandas, NumPy), machine learning (scikit-learn), deep learning (TensorFlow/Keras), 
+# and metrics calculation.
 import pandas as pd
 import time
 import numpy as np
@@ -18,6 +20,8 @@ import tensorflow as tf
 import os
 import random
 import operator
+
+
 #cnn models
 def create_model_cnn():
     model = Sequential()
@@ -31,15 +35,13 @@ def create_model_cnn():
     model.add(MaxPooling1D())
     model.add(Dropout(0.2))
     model.add(Dense(64, activation="relu"))
-    #32
     model.add(Dropout(0.2))
     model.add(Flatten())
     model.add(Dense(32, activation="relu"))
     model.add(Dense(2, activation = 'softmax'))
-    model.compile(loss = 'categorical_crossentropy',#sparse_categorical_crossentropy
+    model.compile(loss = 'categorical_crossentropy',
       optimizer = "adam",
-                metrics = [tf.keras.metrics.CategoricalAccuracy()])#CategoricalTruePositives(),CategoricalTrueNegative(),CategoricalFalseNegative()])#,CategoricalTrueNegative(),CategoricalFalseNegative(),CategoricalFalsePositive()]) #,metric_recall,metric_FPR
-    #model.summary()
+                metrics = [tf.keras.metrics.CategoricalAccuracy()])
     return model
 
 def create_model_html():
@@ -90,6 +92,9 @@ def create_model_url():
                 metrics = [tf.keras.metrics.CategoricalAccuracy()])#  
     #model.summary()
     return model
+
+
+# These functions calculate recall and FPR using confusion matrix components. They handle exceptions to ensure robustness.
 def get_fpr(y,y_pred):
     cm = confusion_matrix(y, y_pred)
     tn=cm[0, 0]
@@ -297,6 +302,8 @@ def data_load(json_file):
     data_ze=data.iloc[:,:60]#include 'label', 'index', 
     data_ze=data_ze.astype(float)
     return data_ze
+
+
 def confusion_matrix_scorer(clf, X, y):
     y_pred = clf.predict(X)
     cm = confusion_matrix(y, y_pred)
@@ -306,6 +313,9 @@ def confusion_matrix_scorer(clf, X, y):
     tp=cm[1, 1]
     fpr=fp/(fp+tn)
     return fpr
+
+
+
 def get_sub_base_rf_recall(model,test_x,test_y,selector):
     se_test_x=selector.transform(test_x)
     pre_y=model.predict(se_test_x)

@@ -803,6 +803,8 @@ def extractFeatures_url(index,json_data,file):
         out.write('\n')
         out.write(json.dumps(features))
         out.write(',')
+
+        
 def extractFeatures_test(index,json_data,file):
     '''
     Function that takes a list of JSON objects as input and extract features(url and html) from them.
